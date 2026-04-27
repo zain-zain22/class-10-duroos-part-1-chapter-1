@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 5 - Tajweed - Lesson 1 Quiz</title>
+
+<style>
+body {
+    font-family: 'Noto Sans Malayalam', 'Meera', sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+#game-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+.header-info {
+    color: #00796b;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+h2 {
+    color: #2c3e50;
+    margin-top: 5px;
+    border-bottom: 2px solid #009688;
+    padding-bottom: 10px;
+}
+.btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.start-btn {
+    background: #009688;
+    color: white;
+    font-weight: bold;
+}
+.start-btn:hover { background: #00796b; }
+
+.option-btn {
+    background: #f1f8f7;
+    border: 1px solid #cfd8dc;
+    text-align: right;
+    padding-right: 20px;
+}
+.option-btn:hover {
+    background: #e0f2f1;
+    border-color: #009688;
+}
+input {
+    width: 90%;
+    padding: 14px;
+    margin: 20px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+#info-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #546e7a;
+}
+#timer { color: #d32f2f; }
+.hidden { display: none; }
+
+.certificate {
+    background: #ffffff;
+    border: 5px double #009688;
+    padding: 25px;
+    margin: 20px 0;
+    border-radius: 15px;
+    position: relative;
+}
+.certificate h3 { color: #00796b; margin-bottom: 20px; text-decoration: underline; }
+.cert-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 5px;
+    font-size: 18px;
+}
+.instruction-box {
+    background: #fff9c4;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #fbc02d;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #5d4037;
+}
+</style>
+</head>
+
+<body>
+<div id="game-box">
+
+<div id="start-screen">
+    <div class="header-info">duroos - പാർട്ട് 1</div>
+    <h2>ക്ലാസ് 10 | പാഠം ഒന്ന് </h2>
+    <p style="color: #666;"> ഇന്ത്യ യിലെ ഇസ്ലാമിക പ്രചാരണം  </p>
+    <input type="text" id="player-name" placeholder="നിങ്ങളുടെ പേര് ടൈപ്പ് ചെയ്യുക">
+    <button class="btn start-btn" onclick="startGame()">ക്വിസ് തുടങ്ങാം</button>
+</div>
+
+<div id="quiz-screen" class="hidden">
+    <div id="info-bar">
+        <span>ചോദ്യം: <span id="q-no"></span>/<span id="total-q"></span></span>
+        <span id="timer">⏱ <span id="seconds">0</span>s</span>
+    </div>
+    <div id="question" style="font-size:19px; font-weight:bold; margin-bottom:25px; text-align: right; line-height: 1.6;"></div>
+    <div id="options"></div>
+</div>
+
+<div id="error-screen" class="hidden">
+    <h2 style="color: #c62828;">ശ്രമം പരാജയപ്പെട്ടു!</h2>
+    <p id="fail-msg" style="font-size: 18px; margin: 20px 0;"></p>
+    <button class="btn start-btn" onclick="location.reload()">വീണ്ടും ശ്രമിക്കുക</button>
+</div>
+
+<div id="win-screen" class="hidden">
+    <h2 style="color: #2e7d32;">🎉 അഭിനന്ദനങ്ങൾ!</h2>
+    
+    <div class="certificate">
+        <h3>വിജയ സർട്ടിഫിക്കറ്റ്</h3>
+        <div class="cert-row"><span>പേര്:</span> <b id="final-name"></b></div>
+        <div class="cert-row"><span>തീയതി:</span> <b id="final-date"></b></div>
+        <div class="cert-row"><span>സമയം:</span> <b id="final-clock"></b></div>
+        <div class="cert-row"><span>എടുത്ത സമയം:</span> <b><span id="final-duration"></span> സെക്കൻഡ്</b></div>
+        <div style="margin-top: 15px; color: #00796b; font-weight: bold;">Class 10 duroos Lesson 1 Passed Successfully</div>
+    </div>
+
+    <div class="instruction-box">
+        📸 ഇതിന്റെ സ്ക്രീൻഷോട്ട് എടുത്ത് ഉസ്താദിന് അയച്ചു കൊടുക്കുക.
+    </div>
+    
+    <button class="btn start-btn" style="margin-top:20px;" onclick="location.reload()">വീണ്ടും കളിക്കുക</button>
+</div>
+
+</div>
+
+<script>
+const quizData = [
+    { q: "ഇമാം ഹാക്കിം(റ) നിവേദനം ചെയ്ത ഹദീസിൽ ഒരു ഇന്ത്യൻ രാജാവ് നബി ﷺ ക്ക് സമ്മാനമായി നൽകിയത് എന്തായിരുന്നു?", a: "ഒരു ഭരണി ഇഞ്ചി", o: ["സ്വർണ്ണ നാണയങ്ങൾ", "ഒരു ഭരണി ഇഞ്ചി", "സുഗന്ധദ്രവ്യങ്ങൾ"] },
+    { q: "നബി ﷺ ക്ക് ഇഞ്ചി സമ്മാനമായി നൽകിയ ഇന്ത്യൻ രാജാവ് ഏത് പ്രദേശത്തുകാരനാണെന്നാണ് ചരിത്രപരമായ ന്യായങ്ങൾ സൂചിപ്പിക്കുന്നത്?", a: "കേരളീയൻ", o: ["കേരളീയൻ", "ബംഗാളി", "കാശ്മീരി"] },
+    { q: "കേരളവും അറേബ്യയും തമ്മിൽ പണ്ടുമുതലേ ഏത് തരം ബന്ധമാണുള്ളത്?", a: "കച്ചവട ബന്ധം", o: ["കച്ചവട ബന്ധം", "യുദ്ധ ബന്ധം", "രാഷ്ട്രീയ ബന്ധം"] },
+    { q: "അറബികൾക്ക് ഇസ്ലാം സ്വീകരിച്ച കേരള രാജാവ് എഴുതിയ കത്തുകളെക്കുറിച്ച് വാമൊഴിയായി പ്രചാരത്തിലുള്ള പേരെന്ത്?", a: "ചേരമാൻ പെരുമാൾ", o: ["മാർത്താണ്ഡ വർമ്മ", "ചേരമാൻ പെരുമാൾ", "സാമൂതിരി"] },
+    { q: "ഇന്ത്യയിൽ ഇസ്ലാം എത്തുന്നതിന് ആദ്യം ഭാഗ്യം ലഭിച്ച ദേശം ഏതാണ്?", a: "കേരളം", o: ["തമിഴ്‌നാട്", "സിന്ധ്", "കേരളം"] },
+    { q: "കച്ചവടക്കാർക്ക് പുറമെ ഇന്ത്യയിൽ ഇസ്ലാം പ്രചരിപ്പിച്ച പ്രധാന വിഭാഗങ്ങൾ ആരെല്ലാം?", a: "സ്വഹാബിമാർ, താബിഉകൾ, പണ്ഡിതന്മാർ, സൂഫികൾ", o: ["സ്വഹാബിമാർ, താബിഉകൾ, പണ്ഡിതന്മാർ, സൂഫികൾ", "വിദേശ സഞ്ചാരികൾ", "കപ്പൽ ജീവനക്കാർ"] },
+    { q: "ഇന്ത്യൻ മതങ്ങളിലെ ഏത് ജീർണ്ണതയാണ് ഇസ്ലാമിക പ്രചരണത്തെ ത്വരിതപ്പെടുത്തിയത്?", a: "ജാതീയതയും ഉച്ചനീചത്വങ്ങളും", o: ["സമ്പത്ത്", "ജാതീയതയും ഉച്ചനീചത്വങ്ങളും", "ഭാഷാ വ്യത്യാസം"] },
+    { q: "ഇസ്ലാം ഉയർത്തിപ്പിടിച്ച ഏത് ഉദാത്തമായ ആശയമാണ് ജനങ്ങളെ ആകർഷിച്ചത്?", a: "ഏകദൈവ വിശ്വാസം, സാഹോദര്യം, സമത്വം", o: ["യുദ്ധം", "സമ്പാദ്യം", "ഏകദൈവ വിശ്വാസം, സാഹോദര്യം, സമത്വം"] },
+    { q: "ആത്മീയ ലോകത്തെ ചക്രവർത്തി എന്നറിയപ്പെടുന്ന അജ്മീരിലെ മഹാൻ ആരാണ്?", a: "ഖാജാ മുഈനുദ്ദീൻ ജിസ്തി", o: ["നിളാമുദ്ദീൻ ഔലിയ", "ഖാജാ മുഈനുദ്ദീൻ ജിസ്തി", "ബാബാ ഫരീദ്"] },
+    { q: "ഖാജാ മുഈനുദ്ദീൻ ജിസ്തി ഇന്ത്യയിൽ ഏത് പേരിലാണ് അറിയപ്പെടുന്നത്?", a: "സുൽത്താനുൽ ഹിന്ദ്", o: ["ശൈഖുൽ ഹിന്ദ്", "സുൽത്താനുൽ ഹിന്ദ്", "കമാലുദ്ദീൻ"] },
+    { q: "ഖാജാ മുഈനുദ്ദീൻ ജിസ്തി ജനിച്ച സജിസ്ഥാൻ ഏത് രാജ്യത്താണ്?", a: "ഇറാൻ", o: ["ഇറാഖ്", "ഇറാൻ", "അഫ്ഗാനിസ്ഥാൻ"] },
+    { q: "ഖാജാ ജിസ്തിയുടെ മാതാപിതാക്കളുടെ പേരെന്താണ്?", a: "റിയാസുദ്ദീൻ - മഹനൂറ", o: ["റിയാസുദ്ദീൻ - മഹനൂറ", "സജാദ് - സൈനബ്", "ബാഖിർ - ആമിന"] },
+    { q: "എത്രാമത്തെ വയസ്സിലാണ് ഖാജാ ജിസ്തിക്ക് മാതാപിതാക്കളെ നഷ്ടപ്പെട്ടത്?", a: "16 വയസ്സിൽ", o: ["10 വയസ്സിൽ", "12 വയസ്സിൽ", "16 വയസ്സിൽ"] },
+    { q: "മാതാപിതാക്കളുടെ വഫാത്തിന് ശേഷം ബഗ്ദാദിൽ എത്തിയ ഖാജാ ജിസ്തി ആരെയാണ് സന്ദർശിച്ചത്?", a: "ശൈഖ് അബ്ദുൽ ഖാദർ ജീലാനി (റ)", o: ["ഇമാം ഗസ്സാലി (റ)", "ശൈഖ് അബ്ദുൽ ഖാദർ ജീലാനി (റ)", "ജുനൈദുൽ ബഗ്ദാദി (റ)"] },
+    { q: "ഹിജ്റ 561-ൽ ഇന്ത്യയിൽ എത്തിയ അദ്ദേഹം പാവപ്പെട്ടവർക്കായി ആദ്യം എവിടെയാണ് പ്രവർത്തിച്ചത്?", a: "ഡൽഹി", o: ["ഡൽഹി", "മുംബൈ", "കൊൽക്കത്ത"] },
+    { q: "അജ്മീറിൽ ഖാജാ തങ്ങൾ എത്തിയപ്പോൾ അവിടെ ഭരിച്ചിരുന്നത് ആരായിരുന്നു?", a: "പൃഥ്വിരാജ് ചൗഹാൻ", o: ["അക്ബർ", "പൃഥ്വിരാജ് ചൗഹാൻ", "മുഹമ്മദ് ഗോരി"] },
+    { q: "രാജാവിന്റെ എതിർപ്പുകളെ ഖാജാ തങ്ങൾ എങ്ങനെയാണ് ജയിച്ചത്?", a: "ആത്മീയ ശക്തിയും കറാമത്തും കൊണ്ട്", o: ["യുദ്ധം ചെയ്ത്", "പണം നൽകി", "ആത്മീയ ശക്തിയും കറാമത്തും കൊണ്ട്"] },
+    { q: "ആയിരങ്ങൾ ഖാജാ തങ്ങൾ മുഖേന ഇസ്ലാം ആശ്ലേഷിക്കാൻ ഇടയായ സാഹചര്യം ഏത്?", a: "പൃഥ്വിരാജ് കൊല്ലപ്പെടുകയും അടിമത്തത്തിൽ നിന്ന് സ്വതന്ത്രരാവുകയും ചെയ്തപ്പോൾ", o: ["കച്ചവടം വഴി", "പൃഥ്വിരാജ് കൊല്ലപ്പെടുകയും അടിമത്തത്തിൽ നിന്ന് സ്വതന്ത്രരാവുകയും ചെയ്തപ്പോൾ", "യാത്രകൾ വഴി"] },
+    { q: "ഖാജാ മുഈനുദ്ദീൻ ജിസ്തി വഫാത്തായ വർഷം ഏത്?", a: "ഹിജ്റ 627", o: ["ഹിജ്റ 627", "ഹിജ്റ 561", "ഹിജ്റ 725"] },
+    { q: "താൻ പ്രചരിപ്പിച്ച ജിസ്തി തരീഖത്തിന്റെ ഖിലാഫത്ത് അദ്ദേഹം ആരെയാണ് ഏൽപ്പിച്ചത്?", a: "ഖുതുബുദ്ദീൻ ബക്തിയാർ കാക്കി (റ)", o: ["നിളാമുദ്ദീൻ ഔലിയ", "ഖുതുബുദ്ദീൻ ബക്തിയാർ കാക്കി (റ)", "ബാബാ ഫരീദ്"] },
+    { q: "ജിസ്തി തരീഖത്ത് രൂപപ്പെടുത്തിയത് ആരായിരുന്നു?", a: "അബൂ ഇസ്ഹാഖ് ഷാമി", o: ["അബൂ ഇസ്ഹാഖ് ഷാമി", "അബ്ദുൽ ഖാദർ ജീലാനി", "മുഈനുദ്ദീൻ ജിസ്തി"] },
+    { q: "ഖുതുബുദ്ദീൻ ബക്തിയാർ കാക്കി ജനിച്ചത് എവിടെയാണ്?", a: "തുർക്കിസ്ഥാനിലെ ഔസ് നഗരത്തിൽ", o: ["ബഗ്ദാദിൽ", "തുർക്കിസ്ഥാനിലെ ഔസ് നഗരത്തിൽ", "ഇറാനിൽ"] },
+    { q: "കാക്കി എന്ന പേര് വരാൻ കാരണമെന്ത്?", a: "പ്രാരാബ്ദക്കാർക്ക് സ്വർണ്ണ കേക്കുകൾ നൽകാറുണ്ടായിരുന്നു", o: ["കാക്കി വസ്ത്രം ധരിച്ചതുകൊണ്ട്", "പ്രാരാബ്ദക്കാർക്ക് സ്വർണ്ണ കേക്കുകൾ നൽകാറുണ്ടായിരുന്നു", "ഭക്ഷണം ഉണ്ടാക്കുന്നതുകൊണ്ട്"] },
+    { q: "ബക്തിയാർ കാക്കി(റ) വഫാത്തായതെന്ന്?", a: "ഹിജ്റ 633 റബീഉൽ അവ്വൽ 14", o: ["ഹിജ്റ 633 റബീഉൽ അവ്വൽ 14", "ഹിജ്റ 627", "ഹിജ്റ 725"] },
+    { q: "ബക്തിയാർ കാക്കിയുടെ മഖാം എവിടെയാണ്?", a: "ഡൽഹി", o: ["അജ്മീർ", "ഡൽഹി", "ലാഹോർ"] },
+    { q: "ഏത് മഹാനവർകളുടെ പേരാണ് റെയിൽവേ സ്റ്റേഷനുകളിൽ രാപ്പകൽ അനൗൺസ് ചെയ്യുന്നത്?", a: "നിളാമുദ്ദീൻ ഔലിയ", o: ["ഖാജാ ജിസ്തി", "നിളാമുദ്ദീൻ ഔലിയ", "ബാബാ ഫരീദ്"] },
+    { q: "നിളാമുദ്ദീൻ ഔലിയ ജനിച്ചത് എവിടെയാണ്?", a: "ബദായൂൻ പട്ടണത്തിൽ", o: ["ബദായൂൻ പട്ടണത്തിൽ", "ബുഹാറയിൽ", "ഡൽഹിയിൽ"] },
+    { q: "നിളാമുദ്ദീൻ ഔലിയ ആരുടെ ശിഷ്യനായിരുന്നു?", a: "ബാബാ ഫരീദ് (റ)", o: ["ബക്തിയാർ കാക്കി", "ബാബാ ഫരീദ് (റ)", "ജിസ്തി തങ്ങൾ"] },
+    { q: "നിളാമുദ്ദീൻ ഔലിയ വഫാത്തായത് എന്ന്?", a: "ഹിജ്റ 725", o: ["ഹിജ്റ 633", "ഹിജ്റ 725", "ഹിജ്റ 627"] },
+    { q: "ഇസ്മായിൽ ലാഹോരി മുഖേന എവിടെയാണ് ആയിരങ്ങൾ ഇസ്ലാം സ്വീകരിച്ചത്?", a: "പഞ്ചാബിൽ", o: ["കേരളത്തിൽ", "പഞ്ചാബിൽ", "കാശ്മീരിൽ"] },
+    { q: "ഇസ്മായിൽ ലാഹോരി ഏത് ത്വരീഖത്തിലെ ശൈഖ് ആയിരുന്നു?", a: "നക്ഷബന്ദി", o: ["ജിസ്തി", "ഖാദിരി", "നക്ഷബന്ദി"] },
+    { q: "ഇസ്മായിൽ ലാഹോരി ജനിച്ച വർഷം ഏത്?", a: "ഹിജ്റ 395", o: ["ഹിജ്റ 395", "ഹിജ്റ 448", "ഹിജ്റ 561"] },
+    { q: "നബി കുടുംബാംഗമായ ഹമദാനി തങ്ങളുടെ പൂർണ്ണനാമം എന്ത്?", a: "അലിയുബ്നുൽ ഹസൻ ശിഹാബുദ്ദീൻ ഹമദാനി", o: ["അലിയുബ്നുൽ ഹസൻ ശിഹാബുദ്ദീൻ ഹമദാനി", "നിസാമുദ്ദീൻ ഹമദാനി", "മുഈനുദ്ദീൻ ഹമദാനി"] },
+    { q: "കശ്മീരിലെ ജനങ്ങൾ മുഴുവൻ ഇസ്ലാം ആശ്ലേഷിക്കാൻ കാരണമായ മഹാൻ?", a: "ഹമദാനി തങ്ങൾ", o: ["ഇസ്മായിൽ ലാഹോരി", "ഹമദാനി തങ്ങൾ", "ബാബാ ഫരീദ്"] },
+    { q: "ഹമദാനി തങ്ങൾ വഫാത്തായ വർഷം ഏത്?", a: "ഹിജ്റ 786", o: ["ഹിജ്റ 710", "ഹിജ്റ 786", "ഹിജ്റ 395"] },
+    { q: "ഹമദാനി തങ്ങളുടെ ഖബർ എവിടെയാണുള്ളത്?", a: "പാകിസ്ഥാനിൽ", o: ["ഇന്ത്യയിൽ", "പാകിസ്ഥാനിൽ", "അഫ്ഗാനിസ്ഥാനിൽ"] },
+    { q: "ഇന്ത്യ ഭരിച്ച അടിമ വംശത്തിലെ സുൽത്താൻ ആര്?", a: "ഇൽത്തമിഷ്", o: ["അക്ബർ", "ഇൽത്തമിഷ്", "ഷാജഹാൻ"] },
+    { q: "ബാബാ ഫരീദിന്റെ പൂർണ്ണരൂപം ഏതാണ്?", a: "ഖാജാ ഫരീദുദ്ദീൻ ഗഞ്ചേ ശക്കർ", o: ["ഖാജാ ഫരീദുദ്ദീൻ ഗഞ്ചേ ശക്കർ", "ഫരീദുദ്ദീൻ അത്താർ", "നിസാമുദ്ദീൻ ഫരീദ്"] },
+    { q: "ഖാജാ ജിസ്തിയുടെ പിതാവ് റിയാസുദ്ദീൻ ഏത് ജോലി ചെയ്തിരുന്നയാളായിരുന്നു?", a: "കർഷകൻ", o: ["കച്ചവടക്കാരൻ", "കർഷകൻ", "അധ്യാപകൻ"] },
+    { q: "ഖാജാ ജിസ്തിയുടെ മാതാപിതാക്കൾ എവിടെയാണ് താമസം മാറിയത്?", a: "ഖുറാസാൻ", o: ["ബഗ്ദാദ്", "ഖുറാസാൻ", "അജ്മീർ"] },
+    { q: "നിളാമുദ്ദീൻ ഔലിയയുടെ പിതാമഹന്മാർ എവിടെ നിന്നാണ് ഇന്ത്യയിലെത്തിയത്?", a: "ബുഹാറ", o: ["ബുഹാറ", "ബഗ്ദാദ്", "ഷിറാസ്"] },
+    { q: "ബക്തിയാർ കാക്കി പ്രാഥമിക വിദ്യാഭ്യാസത്തിന് ശേഷം എങ്ങോട്ടാണ് പോയത്?", a: "ബഗ്ദാദ്", o: ["ഡൽഹി", "ബഗ്ദാദ്", "മക്ക"] },
+    { q: "ബക്തിയാർ കാക്കി(റ) ഡൽഹിയിൽ ആരുടെ ഖലീഫയായാണ് പ്രവർത്തിച്ചത്?", a: "ഖാജാ ജിസ്തി", o: ["ബാബാ ഫരീദ്", "ഖാജാ ജിസ്തി", "നിളാമുദ്ദീൻ ഔലിയ"] },
+    { q: "കാക്കി എന്നറിയപ്പെടുന്ന മഹാൻ എത്രാമത്തെ വയസ്സിലാണ് മുരീദായത്?", a: "18", o: ["15", "18", "20"] },
+    { q: "നിളാമുദ്ദീൻ ഔലിയയുടെ മഖാം സ്ഥിതി ചെയ്യുന്ന പ്രദേശം ഏത് പേരിൽ അറിയപ്പെടുന്നു?", a: "നിസാമുദ്ദീൻ", o: ["അജ്മീർ", "നിസാമുദ്ദീൻ", "ജിസ്തി"] },
+    { q: "ഹമദാനി തങ്ങൾ ജനിച്ച വർഷം?", a: "ഹിജ്റ 710", o: ["ഹിജ്റ 710", "ഹിജ്റ 786", "ഹിജ്റ 633"] },
+    { q: "ഖാജാ ജിസ്തിയുടെ തരീഖത്ത് പേരെന്ത്?", a: "ജിസ്തി തരീഖത്ത്", o: ["നക്ഷബന്ദി", "ജിസ്തി തരീഖത്ത്", "ഖാദിരി"] },
+    { q: "പൃഥ്വിരാജ് ചൗഹാൻ ആരുമായുള്ള യുദ്ധത്തിലാണ് കൊല്ലപ്പെട്ടത്?", a: "മുഹമ്മദ് ഗോരി", o: ["ബാബർ", "മുഹമ്മദ് ഗോരി", "അക്ബർ"] },
+    { q: "ഇന്ത്യയിൽ ഇസ്ലാം പ്രചരിക്കാൻ കാരണമായ മതപരമായ ഘടകം ഏതാണ്?", a: "ഏകദൈവ വിശ്വാസം", o: ["ഏകദൈവ വിശ്വാസം", "ജാതീയത", "സമ്പത്ത്"] },
+    { q: "സൂഫി വര്യന്മാരിൽ 'ഗഞ്ചേ ശക്കർ' എന്നറിയപ്പെടുന്നത് ആരാണ്?", a: "ബാബാ ഫരീദ്", o: ["ബക്തിയാർ കാക്കി", "നിളാമുദ്ദീൻ ഔലിയ", "ബാബാ ഫരീദ്"] }
+];
+
+let currentIndex = 0;
+let secondsElapsed = 0;
+let timerInterval;
+let playerName = "";
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function startGame() {
+    playerName = document.getElementById("player-name").value.trim();
+    if (!playerName) {
+        alert("ദയവായി പേര് ടൈപ്പ് ചെയ്യുക!");
+        return;
+    }
+    
+    shuffle(quizData);
+    currentIndex = 0;
+    secondsElapsed = 0;
+    
+    // ആകെ ചോദ്യങ്ങളുടെ എണ്ണം ഇവിടെ കാണിക്കുന്നു
+    document.getElementById("total-q").innerText = quizData.length;
+    
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("quiz-screen").classList.remove("hidden");
+    
+    timerInterval = setInterval(() => {
+        secondsElapsed++;
+        document.getElementById("seconds").innerText = secondsElapsed;
+    }, 1000);
+    
+    showQuestion();
+}
+
+function showQuestion() {
+    let q = quizData[currentIndex];
+    document.getElementById("q-no").innerText = currentIndex + 1;
+    document.getElementById("question").innerText = q.q;
+    
+    let optDiv = document.getElementById("options");
+    optDiv.innerHTML = "";
+    
+    let options = [...q.o];
+    shuffle(options);
+    
+    options.forEach(opt => {
+        let btn = document.createElement("button");
+        btn.className = "btn option-btn";
+        btn.innerText = opt;
+        btn.onclick = () => {
+            if (opt === q.a) {
+                currentIndex++;
+                if (currentIndex < quizData.length) showQuestion();
+                else showWin();
+            } else {
+                gameOver(q.a);
+            }
+        };
+        optDiv.appendChild(btn);
+    });
+}
+
+function gameOver(correct) {
+    clearInterval(timerInterval);
+    document.getElementById("quiz-screen").classList.add("hidden");
+    document.getElementById("error-screen").classList.remove("hidden");
+    document.getElementById("fail-msg").innerHTML = `തെറ്റായ ഉത്തരം! <br><br> ശരിയായ ഉത്തരം: <br> <b style="color:#009688;">${correct}</b>`;
+}
+
+function showWin() {
+    clearInterval(timerInterval);
+    
+    let now = new Date();
+    let dateStr = now.toLocaleDateString('ml-IN');
+    let timeStr = now.toLocaleTimeString('ml-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    document.getElementById("quiz-screen").classList.add("hidden");
+    document.getElementById("win-screen").classList.remove("hidden");
+    
+    document.getElementById("final-name").innerText = playerName;
+    document.getElementById("final-date").innerText = dateStr;
+    document.getElementById("final-clock").innerText = timeStr;
+    document.getElementById("final-duration").innerText = secondsElapsed;
+}
+</script>
+
+</body>
+</html>
